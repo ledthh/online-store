@@ -20,7 +20,9 @@
         class="hidden-md-and-up"
         @click="sideNav = !sideNav"
       />
-      <v-toolbar-title>Online Store</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link tag="span" to="/" class="pointer">Online Store</router-link>
+      </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
@@ -54,3 +56,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.pointer:hover {
+  cursor: pointer;
+}
+</style>
