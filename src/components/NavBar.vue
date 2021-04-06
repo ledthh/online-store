@@ -15,7 +15,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app dense dark color="primary">
+    <v-app-bar dense dark color="primary">
       <v-app-bar-nav-icon
         class="hidden-md-and-up"
         @click="sideNav = !sideNav"
@@ -34,7 +34,7 @@
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
-    </v-toolbar>
+    </v-app-bar>
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
     return {
       sideNav: false,
       links: [
-        { icon: "mdi-account-box", title: "Log In", url: "/login" },
+        { icon: "mdi-account-box", title: "Login", url: "/login" },
         { icon: "mdi-account-plus", title: "Sign Up", url: "/signup" },
         { icon: "mdi-plus-box", title: "New Product", url: "/new" },
         { icon: "mdi-view-list", title: "My Products", url: "/list" },
