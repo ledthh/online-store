@@ -7,7 +7,7 @@
             <v-toolbar-title>Login form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form ref="form" lazy-validation v-model="valid">
+            <v-form ref="form" :lazy-validation="lazy" v-model="valid">
               <v-text-field
                 label="Email"
                 name="email"
@@ -46,12 +46,13 @@ export default {
   data() {
     return {
       valid: false,
+      lazy: false,
       email: '',
       password: '',
       showPass: false,
       emailRules: [
         v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
