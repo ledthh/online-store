@@ -21,7 +21,9 @@
         @click="sideNav = !sideNav"
       />
       <v-toolbar-title>
-        <router-link tag="span" to="/" class="pointer">Online Store</router-link>
+        <router-link to="/" custom v-slot="{ navigate }">
+          <span role="link" class="pointer" @click="navigate">Online Store</span>
+        </router-link>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
