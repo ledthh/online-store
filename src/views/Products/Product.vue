@@ -3,33 +3,33 @@
     <v-card elevation="5" class="">
       <v-row justify="center">
         <v-col cols="12" lg="6">
-          <v-img src="https://image.ibb.co/fZzq1o/Lenovo_Legion_Y520.jpg" height="350" />
+          <v-img :src="product.imageSrc" height="350" />
         </v-col>
         <v-col cols="12" lg="6">
           <v-card flat class="px-3">
-            <p class="text-h4 my-3 blue--text text--accent-4">Title laptop</p>
+            <p class="text-h4 my-3 blue--text text--accent-4">{{ product.title }}</p>
             <div id="description" class="text-h5">
               <p>
-                <span>Vendor:</span> Alexander
+                <span>Vendor:</span> {{ transformText(product.vendor) }}
               </p>
               <p>
                 <span>Price: </span>
-                <span class="green--text">$ 999</span>
+                <span class="green--text">$ {{ product.price }}</span>
               </p>
               <p>
                 <span>Color: </span>
                 <span
-                  :title="'red'"
-                  :style="{ backgroundColor: 'red' }"
+                  :title="product.color"
+                  :style="{ backgroundColor: product.color }"
                   class="product-color"
                 ></span>
               </p>
               <p>
-                <span>Material:</span> Metal
+                <span>Material:</span> {{ transformText(product.material) }}
               </p>
               <div>
                 <p class="primary--text mb-0">Description:</p>
-                <p class="text-body-1 mb-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                <p class="text-body-1 mb-5">{{ product.description }}</p>
               </div>
               <v-card-actions>
                 <v-spacer />
@@ -46,8 +46,16 @@
 
 <script>
 export default {
-  data() {
-    return {};
+  props: ['id'],
+  computed: {
+    product() {
+      return this.$store.getters.productById(this.id);
+    }
+  },
+  methods: {
+    transformText(text) {
+      return text.charAt(0).toUpperCase() + text.substr(1);
+    }
   }
 };
 </script>
