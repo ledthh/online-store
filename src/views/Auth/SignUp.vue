@@ -65,7 +65,7 @@ export default {
       showPass: false,
       emailRules: [
         v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
@@ -84,7 +84,8 @@ export default {
           email: this.email,
           password: this.password
         };
-        console.log(user);
+
+        this.$store.dispatch('registerUser', user);
       }
     }
   }
