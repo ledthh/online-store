@@ -17,14 +17,21 @@ export default {
     }
   },
   actions: {
-    registerUser({ commit }, { email, password }) {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          commit('setUser', new User(userCredential.uid));
-        })
-        .catch((error) => {
-          console.log(error.message);
-        })
+    async registerUser({ commit }, { email, password }) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      try {
+        const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        
+        commit('setUser', new User(user.id));
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setLoading', false);
+        commit('setError', error.message);
+
+        throw error;
+      }
     }
   },
   getters: {
