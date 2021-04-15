@@ -99,7 +99,7 @@ export default {
           .then(() => {
             this.$router.push('/');
           })
-          .catch((error) => console.log(error));
+          .catch(error => console.log(error));
       }
     }
   }
