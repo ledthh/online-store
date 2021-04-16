@@ -12,6 +12,15 @@
               <v-list-item-title>{{ link.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item v-if="isUserLoggedIn" @click="onLogout">
+            <v-list-item-icon>
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -37,6 +46,15 @@
           <v-icon left>{{ link.icon }}</v-icon>
           {{ link.title }}
         </v-btn>
+        <v-btn
+          elevation="0"
+          color="primary"
+          v-if="isUserLoggedIn"
+          @click="onLogout"
+        >
+          <v-icon left>mdi-exit-to-app</v-icon>
+          Logout
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
   </div>
@@ -46,15 +64,33 @@
 export default {
   data() {
     return {
-      sideNav: false,
-      links: [
-        { icon: "mdi-account-box", title: "Login", url: "/login" },
-        { icon: "mdi-account-plus", title: "Sign Up", url: "/signup" },
-        { icon: "mdi-plus-box", title: "New Product", url: "/new" },
-        { icon: "mdi-view-list", title: "My Products", url: "/list" },
-        { icon: "mdi-cart", title: "Cart", url: "/checkout" }
-      ]
+      sideNav: false
     };
+  },
+  computed: {
+    isUserLoggedIn() {
+      return this.$store.getters.isUserLoggedIn;
+    },
+    links() {
+      if (this.isUserLoggedIn) {
+        return [
+          { icon: "mdi-plus-box", title: "New Product", url: "/new" },
+          { icon: "mdi-view-list", title: "My Products", url: "/list" },
+          { icon: "mdi-cart", title: "Cart", url: "/checkout" }
+        ]
+      } else {
+        return [
+          { icon: "mdi-account-box", title: "Login", url: "/login" },
+          { icon: "mdi-account-plus", title: "Sign Up", url: "/signup" }
+        ]
+      }
+    }
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch('logoutUser');
+      this.$router.push('/');
+    }
   }
 };
 </script>

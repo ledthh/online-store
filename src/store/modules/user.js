@@ -24,7 +24,7 @@ export default {
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-        commit('setUser', new User(user.id));
+        commit('setUser', new User(user.uid));
         commit('setLoading', false);
       } catch (error) {
         commit('setLoading', false);
@@ -40,7 +40,7 @@ export default {
       try {
         const user = await firebase.auth().signInWithEmailAndPassword(email, password);
 
-        commit('setUser', new User(user.id));
+        commit('setUser', new User(user.uid));
         commit('setLoading', false);
       } catch (error) {
         commit('setLoading', false);
@@ -48,11 +48,22 @@ export default {
 
         throw error;
       }
+    },
+    autoLogIn({ commit }, payload) {
+      commit('setUser', new User(payload.uid));
+    },
+    logoutUser({ commit }) {
+      firebase.auth().signOut().then(() => {
+        commit('setUser', null);
+      });
     }
   },
   getters: {
     user(state) {
       return state.user;
+    },
+    isUserLoggedIn(state) {
+      return state.user !== null;
     }
   }
 }
