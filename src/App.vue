@@ -1,23 +1,21 @@
 <template>
   <v-app>
     <NavBar />
-    <template v-if="error">
-      <v-snackbar
-        multi-line
-        color="error"
-        :value="true"
-        @input="closeError"
-      >
-        {{ error }}
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            depressed
-            v-bind="attrs"
-            @click="closeError"
-          >Close</v-btn>
-        </template>
-      </v-snackbar>
-    </template>
+    <v-snackbar
+      multi-line
+      color="error"
+      :value="error != null"
+      @input="closeError"
+    >
+      {{ error }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          depressed
+          v-bind="attrs"
+          @click="closeError"
+        >Close</v-btn>
+      </template>
+    </v-snackbar>
     <router-view />
   </v-app>
 </template>

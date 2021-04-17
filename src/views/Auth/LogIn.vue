@@ -27,6 +27,7 @@
                 v-model="password"
                 :rules="passwordRules"
                 @click:append="showPass = !showPass"
+                @keypress.enter="onSubmit"
               >
               </v-text-field>
             </v-form>
@@ -84,6 +85,11 @@ export default {
           })
           .catch(() => {});
       }
+    }
+  },
+  created() {
+    if (this.$route.query['loginError']) {
+      this.$store.commit('setError', 'Please log in to access this page');
     }
   }
 };
