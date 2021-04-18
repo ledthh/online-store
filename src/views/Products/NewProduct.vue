@@ -50,7 +50,12 @@
             <v-switch color="primary" label="Add to Promo?" v-model="promo" class="my-0"/>
           </v-col>
           <v-col cols="12" class="pt-0">
-            <v-btn :disabled="!valid" color="primary" @click="createProduct" class="success">Create product</v-btn>
+            <v-btn
+              :loading="loading"
+              :disabled="!valid || loading"
+              color="success"
+              @click="createProduct"
+            >Create product</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -73,6 +78,11 @@ export default {
       promo: false
     };
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    }
+  },
   methods: {
     createProduct() {
       if (this.$refs.form.validate()) {
@@ -84,9 +94,14 @@ export default {
           price: this.price,
           description: this.description,
           promo: this.promo,
+          imageSrc: 'https://image.ibb.co/fZzq1o/Lenovo_Legion_Y520.jpg'
         };
-  
-        console.log(product);
+        
+        this.$store.dispatch('createProduct', product)
+          .then(() => {
+            this.$router.push('/list');
+          })
+          .catch(() => {});
       }
     }
   }
