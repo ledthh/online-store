@@ -20,6 +20,7 @@ new Vue({
       if (user) {
         this.$store.dispatch('autoLogIn', user);
       }
-    })
+    });
+    this.$store.dispatch('fetchProducts');
   }
 }).$mount('#app')

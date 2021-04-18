@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <v-container>
       <v-carousel cycle hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item
@@ -46,6 +46,15 @@
       </v-row>
     </v-container>
   </div>
+  <div v-else>
+    <v-container>
+      <v-row>
+        <v-col class="text-center pt-10">
+          <v-progress-circular indeterminate color="primary" size="80" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -53,6 +62,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: mapGetters([
+    'loading',
     'products',
     'promoProducts'
   ])
