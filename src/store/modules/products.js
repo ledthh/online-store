@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/storage';
 
 class Product {
   constructor(
@@ -41,6 +42,8 @@ export default {
   },
   actions: {
     async createProduct({ commit, getters }, payload) {
+      const image = payload.image;
+
       commit('clearError');
       commit('setLoading', true);
       
@@ -53,12 +56,18 @@ export default {
           payload.price,
           payload.description,
           getters.user.id,
-          payload.imageSrc,
+          '',
           payload.promo
         );
         const product = await firebase.database().ref('products').push(item);
+        const imgExt = image.name.slice(image.name.lastIndexOf('.'));
+        const filename = product.key + imgExt.Ext;
+        const fileData = await firebase.storage().ref(`products/${filename}`).put(image);
+        const imageSrc = await firebase.storage().ref(fileData.ref.fullPath).getDownloadURL();
 
-        commit('createProduct', { ...item, id: product.key });
+        await firebase.database().ref('products').child(product.key).update({ imageSrc });
+
+        commit('createProduct', { ...item, id: product.key, imageSrc });
         commit('setLoading', false);
       } catch (error) {
         commit('setLoading', false);
