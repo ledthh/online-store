@@ -69,7 +69,7 @@ export default {
         );
         const product = await firebase.database().ref('products').push(item);
         const imgExt = image.name.slice(image.name.lastIndexOf('.'));
-        const filename = product.key + imgExt.Ext;
+        const filename = product.key + imgExt;
         const fileData = await firebase.storage().ref(`products/${filename}`).put(image);
         const imageSrc = await firebase.storage().ref(fileData.ref.fullPath).getDownloadURL();
 
@@ -145,8 +145,10 @@ export default {
     promoProducts(state) {
       return state.products.filter(item => item.promo)
     },
-    myProducts(state) {
-      return state.products;
+    myProducts(state, getters) {
+      return state.products.filter(product => {
+        return product.ownerId === getters.user.id;
+      });
     },
     productById(state) {
       return productId => {

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="!loading && myProducts.length !== 0">
     <v-row>
       <v-col cols="12" sm="8" offset-sm="2">
         <h1 class="mb-3 text-center">My products</h1>
@@ -27,6 +27,20 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-container v-else-if="!loading && myProducts.length === 0">
+    <v-row>
+      <v-col class="text-center">
+        <h1>You have no products</h1>
+      </v-col>
+    </v-row>
+  </v-container>
+  <v-container v-else>
+    <v-row>
+      <v-col class="text-center pt-10">
+        <v-progress-circular indeterminate color="primary" size="80" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -34,7 +48,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: mapGetters([
-    'myProducts'
+    'myProducts',
+    'loading'
   ])
 };
 </script>

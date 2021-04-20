@@ -32,7 +32,7 @@
                 <p class="text-body-1 mb-5">{{ product.description }}</p>
               </div>
               <v-card-actions>
-                <app-edit-product :product="product"></app-edit-product>
+                <app-edit-product :product="product" v-if="isOwner"></app-edit-product>
                 <v-btn class="mx-2" color="primary">Buy</v-btn>
               </v-card-actions>
             </div>
@@ -42,12 +42,12 @@
     </v-card>
   </v-container>
   <v-container v-else>
-      <v-row>
-        <v-col class="text-center pt-10">
-          <v-progress-circular indeterminate color="primary" size="80" />
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-col class="text-center pt-10">
+        <v-progress-circular indeterminate color="primary" size="80" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -64,6 +64,9 @@ export default {
     },
     loading() {
       return this.$store.getters.loading;
+    },
+    isOwner() {
+      return this.product.ownerId === this.$store.getters.user.id;
     }
   },
   methods: {

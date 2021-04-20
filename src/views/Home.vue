@@ -27,7 +27,7 @@
               <div>
                 <h3 class="text-center">{{ product.title }}</h3>
                 <v-card-text class="text-subtitle-2 px-0">
-                  {{ product.description.substring(0, 60) }}...
+                  {{ shortenDescription(product.description) }}
                 </v-card-text>
                 <div class="green--text">
                   <span class="title">Price: </span>${{ product.price }}
@@ -65,6 +65,11 @@ export default {
     'loading',
     'products',
     'promoProducts'
-  ])
+  ]),
+  methods: {
+    shortenDescription(text) {
+      return text.substring(0, 60) + text.length > 59 ? '...' : '';
+    }
+  }
 };
 </script>
