@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5">
+  <v-container class="mt-5" v-if="!loading">
     <v-card elevation="5" class="">
       <v-row justify="center">
         <v-col cols="12" lg="6">
@@ -32,9 +32,8 @@
                 <p class="text-body-1 mb-5">{{ product.description }}</p>
               </div>
               <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary">Edit</v-btn>
-                <v-btn color="primary">Buy</v-btn>
+                <app-edit-product :product="product"></app-edit-product>
+                <v-btn class="mx-2" color="primary">Buy</v-btn>
               </v-card-actions>
             </div>
           </v-card>
@@ -42,14 +41,29 @@
       </v-row>
     </v-card>
   </v-container>
+  <v-container v-else>
+      <v-row>
+        <v-col class="text-center pt-10">
+          <v-progress-circular indeterminate color="primary" size="80" />
+        </v-col>
+      </v-row>
+    </v-container>
 </template>
 
 <script>
+import EditProduct from '@/components/EditProduct'
+
 export default {
   props: ['id'],
+  components: {
+    appEditProduct: EditProduct
+  },
   computed: {
     product() {
       return this.$store.getters.productById(this.id);
+    },
+    loading() {
+      return this.$store.getters.loading;
     }
   },
   methods: {

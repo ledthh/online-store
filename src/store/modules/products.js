@@ -38,6 +38,14 @@ export default {
     },
     loadProducts(state, payload) {
       state.products = payload;
+    },
+    updateProduct(state, payload) {
+      const product = state.products.find(item => {
+        return payload.id === item.id;
+      });
+
+      product.title = payload.title;
+      product.description = payload.description;
     }
   },
   actions: {
@@ -70,8 +78,8 @@ export default {
         commit('createProduct', { ...item, id: product.key, imageSrc });
         commit('setLoading', false);
       } catch (error) {
-        commit('setLoading', false);
         commit('setError', error.message);
+        commit('setLoading', false);
 
         throw error;
       }
@@ -104,6 +112,24 @@ export default {
         });
 
         commit('loadProducts', resultProducts);
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
+    },
+    async updateProduct({ commit }, payload) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      try {
+        await firebase.database().ref('products').child(payload.id).update({
+          title: payload.title,
+          description: payload.description
+        });
+
+        commit('updateProduct', payload);
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);
