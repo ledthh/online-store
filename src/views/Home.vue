@@ -36,10 +36,14 @@
             </v-card-title>
             <v-card-actions>
               <v-spacer />
-              <v-btn depressed rounded color="primary" outlined :to="'/product/' + product.id"
-                >Description</v-btn
-              >
-              <v-btn depressed rounded color="primary">Add to cart</v-btn>
+              <v-btn
+                depressed
+                rounded
+                outlined
+                color="primary"
+                :to="'/product/' + product.id"
+              >Description</v-btn>
+              <buy-product-dialog :product="product" :title="'Add to cart'" />
             </v-card-actions>
           </v-card>
         </v-col>
@@ -58,9 +62,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+import BuyProduct from '@/components/BuyProduct'
 
 export default {
+  components: {
+    buyProductDialog: BuyProduct
+  },
   computed: mapGetters([
     'loading',
     'products',

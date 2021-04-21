@@ -1,6 +1,7 @@
 export default {
   apiKey: "AIzaSyBc2H_ufJTfM9emaabv7clgN8wwzB8vUzo",
   authDomain: "online-store-15808.firebaseapp.com",
+  databaseURL: "https://online-store-15808-default-rtdb.firebaseio.com",
   projectId: "online-store-15808",
   storageBucket: "online-store-15808.appspot.com",
   messagingSenderId: "908071918699",

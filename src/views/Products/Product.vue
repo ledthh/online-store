@@ -32,8 +32,8 @@
                 <p class="text-body-1 mb-5">{{ product.description }}</p>
               </div>
               <v-card-actions>
-                <app-edit-product :product="product" v-if="isOwner"></app-edit-product>
-                <v-btn class="mx-2" color="primary">Buy</v-btn>
+                <edit-product-dialog :product="product" v-if="isOwner" />
+                <buy-product-dialog :product="product" :title="'Buy'" />
               </v-card-actions>
             </div>
           </v-card>
@@ -52,11 +52,13 @@
 
 <script>
 import EditProduct from '@/components/EditProduct'
+import BuyProduct from '@/components/BuyProduct'
 
 export default {
   props: ['id'],
   components: {
-    appEditProduct: EditProduct
+    editProductDialog: EditProduct,
+    buyProductDialog: BuyProduct
   },
   computed: {
     product() {
