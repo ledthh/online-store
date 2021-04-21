@@ -1,7 +1,13 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6" offset-sm="3">
+      <v-col class="text-center pt-10" v-if="loading">
+        <v-progress-circular indeterminate color="primary" size="80" />
+      </v-col>
+      <v-col v-else-if="!loading && orders.length == 0">
+        <h1 class="text-center">You have no orders</h1>
+      </v-col>
+      <v-col cols="12" sm="6" offset-sm="3" v-else>
         <h1 class="mb-3">Orders</h1>
         <v-list two-line elevation="4">
           <v-list-item
@@ -13,6 +19,7 @@
               <v-checkbox
                 success
                 :input-value="order.done"
+                :disabled="order.done"
                 @change="markDone(order)"
               ></v-checkbox>
             </v-list-item-action>
@@ -39,45 +46,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
-    return {
-      orders: [
-        {
-          id: 1,
-          productId: 12,
-          name: "Alexander",
-          phone: "22-22-22",
-          done: false
-        },
-        {
-          id: 2,
-          productId: 13,
-          name: "Konstantin",
-          phone: "22-22-24",
-          done: false
-        },
-        {
-          id: 3,
-          productId: 10,
-          name: "Dmitryi",
-          phone: "22-88-22",
-          done: false
-        },
-        {
-          id: 4,
-          productId: 22,
-          name: "Alexander",
-          phone: "42-22-24",
-          done: false
-        }
-      ]
-    };
+    return {}
   },
+  computed: mapGetters([
+    'loading',
+    'orders'
+  ]),
   methods: {
     markDone(order) {
-      order.done = true;
+      this.$store.dispatch('markOrderDone', order.id)
+      .then(() => {
+        order.done = true;
+      })
+      .catch(() => {})
     }
+  },
+  created() {
+    this.$store.dispatch('fetchOrders');
   }
 };
 </script>
